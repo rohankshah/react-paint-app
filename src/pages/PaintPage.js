@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Canvas from "../components/Canvas";
-import {
-  handleMouseDown,
-  handleMouseMove,
-  handleMouseUp,
-} from "../actions/line-actions";
+import { handleEditButton, handleSelectButton } from "../actions/line-actions";
 import { pencilIcon, selectionIcon } from "../svg/allSvg";
 
 const styles = {
@@ -46,7 +42,6 @@ function PaintPage() {
   const currentCanvasObj = useSelector((state) => state && state.canvas);
   const dispatch = useDispatch();
 
-  const [drawToggle, setDrawToggle] = useState(false);
   const [buttonToggle, setButtonToggle] = useState([
     { id: "select", clicked: false },
     { id: "edit", clicked: false },
@@ -55,10 +50,10 @@ function PaintPage() {
   function handleButtonClick(e) {
     switch (e.currentTarget.title) {
       case "select":
-        console.log("select button pressed");
+        dispatch(handleSelectButton());
         break;
       case "edit":
-        console.log("edit button pressed");
+        dispatch(handleEditButton());
         break;
       default:
         break;
@@ -66,24 +61,11 @@ function PaintPage() {
     const updatedButtons = buttonToggle.map((button) => {
       if (button.id === e.currentTarget.title) {
         return { ...button, clicked: true };
+      } else {
+        return { ...button, clicked: false };
       }
-      return { ...button, clicked: false };
     });
-
     setButtonToggle(updatedButtons);
-  }
-
-  function handleEditButton() {
-    currentCanvasObj._setOptions({ selection: false });
-    currentCanvasObj.on("mouse:down", (options) =>
-      dispatch(handleMouseDown(currentCanvasObj, options))
-    );
-    currentCanvasObj.on("mouse:move", (options) =>
-      dispatch(handleMouseMove(options))
-    );
-    currentCanvasObj.on("mouse:up", (options) =>
-      dispatch(handleMouseUp(currentCanvasObj, options))
-    );
   }
 
   const vw = Math.max(
@@ -97,33 +79,11 @@ function PaintPage() {
   const canvasWidth = vw * 0.95;
   const canvasHeight = vh * 0.8;
 
-  useEffect(() => {
-    if (Object.keys(currentCanvasObj).length !== 0) {
-      if (drawToggle) {
-        currentCanvasObj._setOptions({ selection: false });
-        currentCanvasObj.on("mouse:down", (options) =>
-          dispatch(handleMouseDown(currentCanvasObj, options))
-        );
-        currentCanvasObj.on("mouse:move", (options) =>
-          dispatch(handleMouseMove(options))
-        );
-        currentCanvasObj.on("mouse:up", (options) =>
-          dispatch(handleMouseUp(currentCanvasObj, options))
-        );
-      } else if (!drawToggle) {
-        currentCanvasObj._setOptions({ selection: true });
-        currentCanvasObj.__eventListeners = {};
-      }
-    }
-  }, [drawToggle]);
-
   return (
     <div style={styles.mainCont}>
       <div>
         <div style={styles.toolBoxCont}>
           <div
-            // onClick={() => setDrawToggle(false)}
-            // style={drawToggle ? styles.buttonUnclick : styles.buttonClick}
             onClick={(e) => handleButtonClick(e)}
             style={
               buttonToggle.filter((ele) => ele.id === "select")[0].clicked
@@ -135,8 +95,6 @@ function PaintPage() {
             {selectionIcon()}
           </div>
           <div
-            // onClick={() => setDrawToggle(!drawToggle)}
-            // style={drawToggle ? styles.buttonClick : styles.buttonUnclick}
             onClick={(e) => handleButtonClick(e)}
             style={
               buttonToggle.filter((ele) => ele.id === "edit")[0].clicked

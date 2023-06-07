@@ -68,4 +68,33 @@ function handleMouseUp() {
   };
 }
 
-export { handleMouseDown, handleMouseMove, handleMouseUp };
+function handleEditButton() {
+  return (dispatch, state) => {
+    let canvasObj = state().canvas;
+    canvasObj._setOptions({ selection: false });
+    canvasObj.on("mouse:down", (options) =>
+      dispatch(handleMouseDown(canvasObj, options))
+    );
+    canvasObj.on("mouse:move", (options) => dispatch(handleMouseMove(options)));
+    canvasObj.on("mouse:up", (options) =>
+      dispatch(handleMouseUp(canvasObj, options))
+    );
+  };
+}
+
+function handleSelectButton() {
+  return (dispatch, state) => {
+    let canvasObj = state().canvas;
+    canvasObj.__eventListeners = {};
+    canvasObj._setOptions({ selection: true });
+    dispatch(updateCanvas(canvasObj));
+  };
+}
+
+export {
+  handleMouseDown,
+  handleMouseMove,
+  handleMouseUp,
+  handleEditButton,
+  handleSelectButton,
+};
