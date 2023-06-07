@@ -25,14 +25,28 @@ function updateCurrentLine(lineObj) {
   };
 }
 
+function changeStrokeWidth(newWidth) {
+  return {
+    type: "CHANGE-STROKE-WIDTH",
+    payload: newWidth,
+  };
+}
+
+function changeStrokeColor(newColor) {
+  return {
+    type: "CHANGE-STROKE-COLOR",
+    payload: newColor,
+  };
+}
+
 function handleMouseDown(canvasObj, options) {
   return (dispatch, state) => {
     const { e } = options;
     const { offsetX, offsetY } = e;
     dispatch(isDrawingTrue());
     let line = new fabric.Line([offsetX, offsetY, offsetX, offsetY], {
-      stroke: "#9747ff",
-      strokeWidth: 2,
+      stroke: state().strokeColor,
+      strokeWidth: state().strokeWidth,
     });
     canvasObj.add(line);
     dispatch(updateCurrentLine(line));
@@ -91,10 +105,24 @@ function handleSelectButton() {
   };
 }
 
+function handleStrokeWidthChange(newWidth) {
+  return (dispatch, state) => {
+    dispatch(changeStrokeWidth(newWidth));
+  };
+}
+
+function handleStrokeColorChange(newColor) {
+  return (dispatch) => {
+    dispatch(changeStrokeColor(newColor));
+  };
+}
+
 export {
   handleMouseDown,
   handleMouseMove,
   handleMouseUp,
   handleEditButton,
   handleSelectButton,
+  handleStrokeWidthChange,
+  handleStrokeColorChange,
 };

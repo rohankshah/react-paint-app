@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Canvas from "../components/Canvas";
-import { handleEditButton, handleSelectButton } from "../actions/line-actions";
+import {
+  handleEditButton,
+  handleSelectButton,
+  handleStrokeWidthChange,
+  handleStrokeColorChange,
+} from "../actions/line-actions";
 import { pencilIcon, selectionIcon } from "../svg/allSvg";
 
 const styles = {
@@ -16,13 +21,14 @@ const styles = {
   },
 
   toolBoxCont: {
-    height: "3em",
+    height: "3.5em",
     width: "95vw",
     borderLeft: "2px solid black",
     borderRight: "2px solid black",
     borderTop: "2px solid black",
     display: "flex",
     alignItems: "center",
+    justifyContent: "flex-start",
     padding: "0em 1em",
     backgroundColor: "white",
   },
@@ -36,16 +42,43 @@ const styles = {
     backgroundColor: "#5a5a5a",
     marginRight: "1em",
   },
+
+  strokeWidthInput: {
+    height: "30px",
+    width: "4em",
+    marginRight: "1em",
+    paddingLeft: "7px",
+  },
+
+  colorPicker: {
+    height: "30px",
+    width: "3em",
+    border: "none",
+  },
 };
 
 function PaintPage() {
   const currentCanvasObj = useSelector((state) => state && state.canvas);
+  const strokeWidth = useSelector((state) => state && state.strokeWidth);
+  const strokeColor = useSelector((state) => state && state.strokeColor);
   const dispatch = useDispatch();
+
+  const [currentStrokeWidth, setCurrentStrokeWidth] = useState(2);
+  const [currentStrokeColor, setcurrentStrokeColor] = useState("#000000");
 
   const [buttonToggle, setButtonToggle] = useState([
     { id: "select", clicked: false },
     { id: "edit", clicked: false },
   ]);
+
+  useEffect(() => {
+    strokeWidth && setCurrentStrokeWidth(strokeWidth);
+  }, [strokeWidth]);
+
+  useEffect(() => {
+    console.log(strokeColor);
+    strokeColor && setcurrentStrokeColor(strokeColor);
+  }, [strokeColor]);
 
   function handleButtonClick(e) {
     switch (e.currentTarget.title) {
@@ -104,6 +137,28 @@ function PaintPage() {
             title="edit"
           >
             {pencilIcon()}
+          </div>
+          <div>
+            <input
+              type="number"
+              style={styles.strokeWidthInput}
+              min="1"
+              max="50"
+              value={currentStrokeWidth}
+              onChange={(e) =>
+                dispatch(handleStrokeWidthChange(Number(e.target.value)))
+              }
+            ></input>
+          </div>
+          <div>
+            <input
+              type="color"
+              style={styles.colorPicker}
+              value={currentStrokeColor}
+              onChange={(e) =>
+                dispatch(handleStrokeColorChange(e.target.value))
+              }
+            ></input>
           </div>
         </div>
         <Canvas canvasHeight={canvasHeight} canvasWidth={canvasWidth} />

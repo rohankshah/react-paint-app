@@ -4,6 +4,8 @@ const initialState = {
   drawingToggle: false,
   isDrawing: false,
   currentLine: {},
+  strokeWidth: 2,
+  strokeColor: "#000000",
 };
 
 function rootReducer(state = initialState, action) {
@@ -35,6 +37,18 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       currentLine: action.payload,
+    };
+  }
+  if (action.type === "CHANGE-STROKE-WIDTH") {
+    return {
+      ...state,
+      strokeWidth: action.payload,
+    };
+  }
+  if (action.type === "CHANGE-STROKE-COLOR") {
+    return {
+      ...state,
+      strokeColor: action.payload,
     };
   } else {
     return {

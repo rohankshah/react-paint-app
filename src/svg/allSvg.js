@@ -1,3 +1,5 @@
+const size = "28px";
+
 function pencilIcon() {
   return (
     <svg
@@ -7,8 +9,8 @@ function pencilIcon() {
       strokeWidth={1.5}
       stroke="currentColor"
       className="w-6 h-6"
-      height="30px"
-      width="30px"
+      height={size}
+      width={size}
     >
       <path
         strokeLinecap="round"
@@ -23,9 +25,9 @@ function selectionIcon() {
   return (
     <svg
       fill="#000000"
-      width="30px"
-      height="30px"
-      viewBox="0 0 256 256"
+      height={size}
+      width={size}
+      viewBox="0 0 250 210"
       id="Flat"
       xmlns="http://www.w3.org/2000/svg"
     >
