@@ -5,12 +5,12 @@ function pencilIcon() {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
-      viewBox="0 0 24 24"
+      viewBox="0 0 22 22"
       strokeWidth={1.5}
       stroke="currentColor"
       className="w-6 h-6"
-      height={size}
-      width={size}
+      height="26px"
+      width="26px"
     >
       <path
         strokeLinecap="round"
@@ -36,4 +36,18 @@ function selectionIcon() {
   );
 }
 
-export { pencilIcon, selectionIcon };
+function lineIcon() {
+  return (
+    <svg
+      fill="#000000"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M3.293,20.707a1,1,0,0,1,0-1.414l16-16a1,1,0,1,1,1.414,1.414l-16,16A1,1,0,0,1,3.293,20.707Z" />
+    </svg>
+  );
+}
+
+export { pencilIcon, selectionIcon, lineIcon };

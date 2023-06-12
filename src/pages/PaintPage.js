@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Canvas from "../components/Canvas";
 import {
-  handleEditButton,
+  handleMakeLineButton,
   handleSelectButton,
+  handleFreeDrawButton,
   handleStrokeWidthChange,
   handleStrokeColorChange,
 } from "../actions/line-actions";
-import { pencilIcon, selectionIcon } from "../svg/allSvg";
+import { pencilIcon, selectionIcon, lineIcon } from "../svg/allSvg";
 
 const styles = {
   mainCont: {
@@ -34,13 +35,15 @@ const styles = {
   },
 
   buttonUnclick: {
-    backgroundColor: "#a3a3a3",
     marginRight: "1em",
   },
 
   buttonClick: {
-    backgroundColor: "#5a5a5a",
+    // backgroundColor: "#a3a3a3",
+    // opacity: "80%",
     marginRight: "1em",
+    marginTop: "5px",
+    boxShadow: "inset 3px 3px 5px -3px #a3a3a3",
   },
 
   strokeWidthInput: {
@@ -48,17 +51,18 @@ const styles = {
     width: "4em",
     marginRight: "1em",
     paddingLeft: "7px",
+    border: "1px solid #a3a3a3",
+    // backgroundColor: "#a3a3a3",
   },
 
   colorPicker: {
-    height: "30px",
+    height: "28px",
     width: "3em",
     border: "none",
   },
 };
 
 function PaintPage() {
-  const currentCanvasObj = useSelector((state) => state && state.canvas);
   const strokeWidth = useSelector((state) => state && state.strokeWidth);
   const strokeColor = useSelector((state) => state && state.strokeColor);
   const dispatch = useDispatch();
@@ -68,7 +72,8 @@ function PaintPage() {
 
   const [buttonToggle, setButtonToggle] = useState([
     { id: "select", clicked: false },
-    { id: "edit", clicked: false },
+    { id: "MakeLine", clicked: false },
+    { id: "freeDraw", clicked: false },
   ]);
 
   useEffect(() => {
@@ -85,8 +90,11 @@ function PaintPage() {
       case "select":
         dispatch(handleSelectButton());
         break;
-      case "edit":
-        dispatch(handleEditButton());
+      case "MakeLine":
+        dispatch(handleMakeLineButton());
+        break;
+      case "freeDraw":
+        dispatch(handleFreeDrawButton());
         break;
       default:
         break;
@@ -116,6 +124,7 @@ function PaintPage() {
     <div style={styles.mainCont}>
       <div>
         <div style={styles.toolBoxCont}>
+          {/* Select button */}
           <div
             onClick={(e) => handleButtonClick(e)}
             style={
@@ -127,16 +136,31 @@ function PaintPage() {
           >
             {selectionIcon()}
           </div>
+
+          {/* Free draw button */}
           <div
             onClick={(e) => handleButtonClick(e)}
             style={
-              buttonToggle.filter((ele) => ele.id === "edit")[0].clicked
+              buttonToggle.filter((ele) => ele.id === "freeDraw")[0].clicked
                 ? styles.buttonClick
                 : styles.buttonUnclick
             }
-            title="edit"
+            title="freeDraw"
           >
             {pencilIcon()}
+          </div>
+
+          {/* Make line button */}
+          <div
+            onClick={(e) => handleButtonClick(e)}
+            style={
+              buttonToggle.filter((ele) => ele.id === "MakeLine")[0].clicked
+                ? styles.buttonClick
+                : styles.buttonUnclick
+            }
+            title="MakeLine"
+          >
+            {lineIcon()}
           </div>
           <div>
             <input

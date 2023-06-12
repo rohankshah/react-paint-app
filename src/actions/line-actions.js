@@ -82,9 +82,10 @@ function handleMouseUp() {
   };
 }
 
-function handleEditButton() {
+function handleMakeLineButton() {
   return (dispatch, state) => {
     let canvasObj = state().canvas;
+    canvasObj._setOptions({ isDrawingMode: false });
     canvasObj._setOptions({ selection: false });
     canvasObj.on("mouse:down", (options) =>
       dispatch(handleMouseDown(canvasObj, options))
@@ -100,7 +101,21 @@ function handleSelectButton() {
   return (dispatch, state) => {
     let canvasObj = state().canvas;
     canvasObj.__eventListeners = {};
+    canvasObj._setOptions({ isDrawingMode: false });
     canvasObj._setOptions({ selection: true });
+    dispatch(updateCanvas(canvasObj));
+  };
+}
+
+function handleFreeDrawButton() {
+  return (dispatch, state) => {
+    console.log("free draw");
+    let canvasObj = state().canvas;
+    canvasObj.__eventListeners = {};
+    canvasObj._setOptions({ selection: false });
+    canvasObj._setOptions({ isDrawingMode: true });
+    canvasObj.freeDrawingBrush.color = state().strokeColor;
+    canvasObj.freeDrawingBrush.width = state().strokeWidth;
     dispatch(updateCanvas(canvasObj));
   };
 }
@@ -108,12 +123,18 @@ function handleSelectButton() {
 function handleStrokeWidthChange(newWidth) {
   return (dispatch, state) => {
     dispatch(changeStrokeWidth(newWidth));
+    let canvasObj = state().canvas;
+    canvasObj.freeDrawingBrush.width = state().strokeWidth;
+    dispatch(updateCanvas(canvasObj));
   };
 }
 
 function handleStrokeColorChange(newColor) {
-  return (dispatch) => {
+  return (dispatch, state) => {
     dispatch(changeStrokeColor(newColor));
+    let canvasObj = state().canvas;
+    canvasObj.freeDrawingBrush.color = state().strokeColor;
+    dispatch(updateCanvas(canvasObj));
   };
 }
 
@@ -121,8 +142,9 @@ export {
   handleMouseDown,
   handleMouseMove,
   handleMouseUp,
-  handleEditButton,
+  handleMakeLineButton,
   handleSelectButton,
+  handleFreeDrawButton,
   handleStrokeWidthChange,
   handleStrokeColorChange,
 };
