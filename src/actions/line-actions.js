@@ -39,6 +39,13 @@ function changeStrokeColor(newColor) {
   };
 }
 
+function changeBgColor(newColor) {
+  return {
+    type: "CHANGE-BG-COLOR",
+    payload: newColor,
+  };
+}
+
 function handleMouseDown(canvasObj, options) {
   return (dispatch, state) => {
     const { e } = options;
@@ -138,6 +145,15 @@ function handleStrokeColorChange(newColor) {
   };
 }
 
+function handleBgColorChange(newColor) {
+  return (dispatch, state) => {
+    dispatch(changeBgColor(newColor));
+    let canvasObj = state().canvas;
+    canvasObj.setBackgroundColor(newColor, canvasObj.renderAll.bind(canvasObj));
+    dispatch(updateCanvas(canvasObj));
+  };
+}
+
 export {
   handleMouseDown,
   handleMouseMove,
@@ -147,4 +163,5 @@ export {
   handleFreeDrawButton,
   handleStrokeWidthChange,
   handleStrokeColorChange,
+  handleBgColorChange,
 };

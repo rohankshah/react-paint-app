@@ -7,8 +7,14 @@ import {
   handleFreeDrawButton,
   handleStrokeWidthChange,
   handleStrokeColorChange,
+  handleBgColorChange,
 } from "../actions/line-actions";
-import { pencilIcon, selectionIcon, lineIcon } from "../svg/allSvg";
+import {
+  pencilIcon,
+  selectionIcon,
+  lineIcon,
+  bgColorIcon,
+} from "../svg/allSvg";
 
 const styles = {
   mainCont: {
@@ -59,16 +65,39 @@ const styles = {
     height: "28px",
     width: "3em",
     border: "none",
+    marginRight: "1em",
+  },
+
+  bgColorDiv: {
+    height: "28px",
+    width: "3em",
+    marginRight: "1em",
+    position: "relative",
+    display: "inline-block",
+  },
+
+  bgPicker: {
+    border: "none",
+    marginRight: "1em",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    opacity: 0,
+    width: "100%",
+    height: "100%",
+    cursor: "pointer",
   },
 };
 
 function PaintPage() {
   const strokeWidth = useSelector((state) => state && state.strokeWidth);
   const strokeColor = useSelector((state) => state && state.strokeColor);
+  const bgColor = useSelector((state) => state && state.bgColor);
   const dispatch = useDispatch();
 
   const [currentStrokeWidth, setCurrentStrokeWidth] = useState(2);
   const [currentStrokeColor, setcurrentStrokeColor] = useState("#000000");
+  const [currentBgColor, setCurrentBgColor] = useState("#ffffff");
 
   const [buttonToggle, setButtonToggle] = useState([
     { id: "select", clicked: false },
@@ -81,9 +110,12 @@ function PaintPage() {
   }, [strokeWidth]);
 
   useEffect(() => {
-    console.log(strokeColor);
     strokeColor && setcurrentStrokeColor(strokeColor);
   }, [strokeColor]);
+
+  useEffect(() => {
+    bgColor && setCurrentBgColor(bgColor);
+  }, [bgColor]);
 
   function handleButtonClick(e) {
     switch (e.currentTarget.title) {
@@ -162,6 +194,19 @@ function PaintPage() {
           >
             {lineIcon()}
           </div>
+
+          {/* Background color change  */}
+          <div style={styles.bgColorDiv}>
+            {bgColorIcon()}
+            <input
+              type="color"
+              style={styles.bgPicker}
+              value={currentBgColor}
+              onChange={(e) => dispatch(handleBgColorChange(e.target.value))}
+            ></input>
+          </div>
+
+          {/* Stroke width Change */}
           <div>
             <input
               type="number"
@@ -174,6 +219,8 @@ function PaintPage() {
               }
             ></input>
           </div>
+
+          {/* Stroke color change  */}
           <div>
             <input
               type="color"

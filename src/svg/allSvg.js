@@ -50,4 +50,38 @@ function lineIcon() {
   );
 }
 
-export { pencilIcon, selectionIcon, lineIcon };
+function bgColorIcon() {
+  return (
+    <svg
+      width="28px"
+      height="28px"
+      viewBox="0 0 800 800"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M125.667 518.667L241 634C322 715 349.667 713.667 429.667 634L615.333 448.333C680 383.667 696.333 340.667 615.333 259.665L500 144.332C413.667 57.9987 376 79.6653 311.333 144.332L125.667 329.999C46 410 39.3334 432.333 125.667 518.667Z"
+        stroke="#292D32"
+        strokeWidth="40"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M640 559.667L618 596C587 647.667 611 690 671.333 690C731.667 690 755.667 647.667 724.667 596L702.667 559.667C685.333 531 657 531 640 559.667Z"
+        stroke="#292D32"
+        strokeWidth="40"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M66.6667 408.003C252 357.67 447.333 356.003 633.333 403.67L650 408.003"
+        stroke="#292D32"
+        strokeWidth="40"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export { pencilIcon, selectionIcon, lineIcon, bgColorIcon };

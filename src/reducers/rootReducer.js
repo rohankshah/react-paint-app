@@ -6,6 +6,7 @@ const initialState = {
   currentLine: {},
   strokeWidth: 2,
   strokeColor: "#000000",
+  bgColor: "#ffffff",
 };
 
 function rootReducer(state = initialState, action) {
@@ -49,6 +50,12 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       strokeColor: action.payload,
+    };
+  }
+  if (action.type === "CHANGE-BG-COLOR") {
+    return {
+      ...state,
+      bgColor: action.payload,
     };
   } else {
     return {
