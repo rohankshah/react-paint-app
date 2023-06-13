@@ -4,18 +4,24 @@ import Canvas from "../components/Canvas";
 import { styles } from "./PaintPageStyles";
 import {
   handleMakeLineButton,
-  handleSelectButton,
-  handleFreeDrawButton,
+  handleMakeCircleButton,
+} from "../actions/shape-actions";
+import {
   handleStrokeWidthChange,
   handleStrokeColorChange,
   handleBgColorChange,
-} from "../actions/line-actions";
-import { setUploadImageToCanvas } from "../actions/canvas-actions";
+} from "../actions/properties-actions";
+import {
+  handleSelectButton,
+  handleFreeDrawButton,
+  setUploadImageToCanvas,
+} from "../actions/canvas-actions";
 import {
   pencilIcon,
   selectionIcon,
   lineIcon,
   bgColorIcon,
+  circleIcon,
 } from "../svg/allSvg";
 
 function PaintPage() {
@@ -33,6 +39,7 @@ function PaintPage() {
     { id: "select", clicked: false },
     { id: "MakeLine", clicked: false },
     { id: "freeDraw", clicked: false },
+    { id: "MakeCircle", clicked: false },
   ]);
 
   useEffect(() => {
@@ -61,6 +68,9 @@ function PaintPage() {
         break;
       case "freeDraw":
         dispatch(handleFreeDrawButton());
+        break;
+      case "MakeCircle":
+        dispatch(handleMakeCircleButton());
         break;
       default:
         break;
@@ -131,6 +141,19 @@ function PaintPage() {
             title="MakeLine"
           >
             {lineIcon()}
+          </div>
+
+          {/* Make circle button  */}
+          <div
+            onClick={(e) => handleButtonClick(e)}
+            style={
+              buttonToggle.filter((ele) => ele.id === "MakeCircle")[0].clicked
+                ? styles.buttonClick
+                : styles.buttonUnclick
+            }
+            title="MakeCircle"
+          >
+            {circleIcon()}
           </div>
 
           {/* Background color change  */}

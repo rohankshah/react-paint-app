@@ -30,4 +30,31 @@ function setUploadImageToCanvas(fileURL) {
   };
 }
 
-export { setCanvasObj, setUploadImageToCanvas };
+function handleSelectButton() {
+  return (dispatch, state) => {
+    let canvasObj = state().canvas;
+    canvasObj.__eventListeners = {};
+    canvasObj._setOptions({ isDrawingMode: false });
+    canvasObj._setOptions({ selection: true });
+    dispatch(updateCanvas(canvasObj));
+  };
+}
+
+function handleFreeDrawButton() {
+  return (dispatch, state) => {
+    let canvasObj = state().canvas;
+    canvasObj.__eventListeners = {};
+    canvasObj._setOptions({ selection: false });
+    canvasObj._setOptions({ isDrawingMode: true });
+    canvasObj.freeDrawingBrush.color = state().strokeColor;
+    canvasObj.freeDrawingBrush.width = state().strokeWidth;
+    dispatch(updateCanvas(canvasObj));
+  };
+}
+
+export {
+  setCanvasObj,
+  setUploadImageToCanvas,
+  handleSelectButton,
+  handleFreeDrawButton,
+};

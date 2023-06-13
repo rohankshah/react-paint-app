@@ -4,6 +4,7 @@ const initialState = {
   drawingToggle: false,
   isDrawing: false,
   currentLine: {},
+  currentCircle: {},
   strokeWidth: 2,
   strokeColor: "#000000",
   bgColor: "#ffffff",
@@ -38,6 +39,12 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       currentLine: action.payload,
+    };
+  }
+  if (action.type === "UPDATE-CURRENT-CIRCLE") {
+    return {
+      ...state,
+      currentCircle: action.payload,
     };
   }
   if (action.type === "CHANGE-STROKE-WIDTH") {
