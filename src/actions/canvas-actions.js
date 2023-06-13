@@ -1,4 +1,5 @@
 import { fabric } from "fabric";
+import fileDownload from "js-file-download";
 
 function setCanvasSuccess(canvasObj) {
   return {
@@ -52,9 +53,24 @@ function handleFreeDrawButton() {
   };
 }
 
+function handleExportCanvas() {
+  return (dispatch, state) => {
+    let canvasObj = state().canvas;
+    let exportedURL = canvasObj.toDataURL({ format: "png" });
+    console.log(exportedURL);
+    const anchorElement = document.createElement("a");
+    anchorElement.download = "react-paint-canvas";
+    anchorElement.href = exportedURL;
+    anchorElement.type = "image/png";
+    anchorElement.click();
+    // fileDownload(exportedURL, "react-paint-canvas.png");
+  };
+}
+
 export {
   setCanvasObj,
   setUploadImageToCanvas,
   handleSelectButton,
   handleFreeDrawButton,
+  handleExportCanvas,
 };

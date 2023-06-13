@@ -69,6 +69,7 @@ const styles = {
 
   uploadImageInput: {
     opacity: 0,
+    display: "none",
   },
 
   uploadImageLabel: {
@@ -77,6 +78,15 @@ const styles = {
     height: "28px",
     width: "3em",
     padding: "4px",
+  },
+
+  exportButton: {
+    border: "1px solid black",
+    marginRight: "1em",
+    height: "28px",
+    width: "4em",
+    padding: "4px",
+    backgroundColor: "rgb(255, 0, 0, 0)",
   },
 };
 

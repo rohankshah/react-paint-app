@@ -15,6 +15,7 @@ import {
   handleSelectButton,
   handleFreeDrawButton,
   setUploadImageToCanvas,
+  handleExportCanvas,
 } from "../actions/canvas-actions";
 import {
   pencilIcon,
@@ -87,6 +88,10 @@ function PaintPage() {
 
   function handleUploadImage(e) {
     setUploadedImage(URL.createObjectURL(e.target.files[0]));
+  }
+
+  function handleExport() {
+    dispatch(handleExportCanvas());
   }
 
   const vw = Math.max(
@@ -209,6 +214,12 @@ function PaintPage() {
               onChange={(e) => handleUploadImage(e)}
               style={styles.uploadImageInput}
             />
+          </div>
+
+          <div>
+            <button style={styles.exportButton} onClick={() => handleExport()}>
+              Export
+            </button>
           </div>
         </div>
         <Canvas canvasHeight={canvasHeight} canvasWidth={canvasWidth} />
