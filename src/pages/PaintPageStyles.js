@@ -17,9 +17,14 @@ const styles = {
     borderTop: "2px solid black",
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     padding: "0em 1em",
     backgroundColor: "white",
+  },
+
+  innerCont: {
+    display: "flex",
+    alignItems: "center",
   },
 
   buttonUnclick: {
@@ -73,20 +78,11 @@ const styles = {
   },
 
   uploadImageLabel: {
-    border: "1px solid black",
     marginRight: "1em",
-    height: "28px",
-    width: "3em",
-    padding: "4px",
   },
 
   exportButton: {
-    border: "1px solid black",
     marginRight: "1em",
-    height: "28px",
-    width: "4em",
-    padding: "4px",
-    backgroundColor: "rgb(255, 0, 0, 0)",
   },
 };
 

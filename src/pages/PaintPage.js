@@ -23,6 +23,8 @@ import {
   lineIcon,
   bgColorIcon,
   circleIcon,
+  uploadIcon,
+  downloadIcon,
 } from "../svg/allSvg";
 
 function PaintPage() {
@@ -109,117 +111,122 @@ function PaintPage() {
     <div style={styles.mainCont}>
       <div>
         <div style={styles.toolBoxCont}>
-          {/* Select button */}
-          <div
-            onClick={(e) => handleButtonClick(e)}
-            style={
-              buttonToggle.filter((ele) => ele.id === "select")[0].clicked
-                ? styles.buttonClick
-                : styles.buttonUnclick
-            }
-            title="select"
-          >
-            {selectionIcon()}
-          </div>
-
-          {/* Free draw button */}
-          <div
-            onClick={(e) => handleButtonClick(e)}
-            style={
-              buttonToggle.filter((ele) => ele.id === "freeDraw")[0].clicked
-                ? styles.buttonClick
-                : styles.buttonUnclick
-            }
-            title="freeDraw"
-          >
-            {pencilIcon()}
-          </div>
-
-          {/* Make line button */}
-          <div
-            onClick={(e) => handleButtonClick(e)}
-            style={
-              buttonToggle.filter((ele) => ele.id === "MakeLine")[0].clicked
-                ? styles.buttonClick
-                : styles.buttonUnclick
-            }
-            title="MakeLine"
-          >
-            {lineIcon()}
-          </div>
-
-          {/* Make circle button  */}
-          <div
-            onClick={(e) => handleButtonClick(e)}
-            style={
-              buttonToggle.filter((ele) => ele.id === "MakeCircle")[0].clicked
-                ? styles.buttonClick
-                : styles.buttonUnclick
-            }
-            title="MakeCircle"
-          >
-            {circleIcon()}
-          </div>
-
-          {/* Background color change  */}
-          <div style={styles.bgColorDiv}>
-            {bgColorIcon()}
-            <input
-              type="color"
-              style={styles.bgPicker}
-              value={currentBgColor}
-              onChange={(e) => dispatch(handleBgColorChange(e.target.value))}
-            ></input>
-          </div>
-
-          {/* Stroke width Change */}
-          <div>
-            <input
-              type="number"
-              style={styles.strokeWidthInput}
-              min="1"
-              max="50"
-              value={currentStrokeWidth}
-              onChange={(e) =>
-                dispatch(handleStrokeWidthChange(Number(e.target.value)))
+          <div style={styles.innerCont}>
+            {/* Select button */}
+            <div
+              onClick={(e) => handleButtonClick(e)}
+              style={
+                buttonToggle.filter((ele) => ele.id === "select")[0].clicked
+                  ? styles.buttonClick
+                  : styles.buttonUnclick
               }
-            ></input>
-          </div>
-
-          {/* Stroke color change  */}
-          <div>
-            <input
-              type="color"
-              style={styles.colorPicker}
-              value={currentStrokeColor}
-              onChange={(e) =>
-                dispatch(handleStrokeColorChange(e.target.value))
-              }
-            ></input>
-          </div>
-
-          {/* Upload image  */}
-          <div>
-            <label
-              htmlFor="image_uploads"
-              title="PNG, JPG, JPEG"
-              style={styles.uploadImageLabel}
+              title="select"
             >
-              Upload
-            </label>
-            <input
-              id="image_uploads"
-              type="file"
-              accept="image/png, image/jpeg, image/jpg"
-              onChange={(e) => handleUploadImage(e)}
-              style={styles.uploadImageInput}
-            />
+              {selectionIcon()}
+            </div>
+
+            {/* Free draw button */}
+            <div
+              onClick={(e) => handleButtonClick(e)}
+              style={
+                buttonToggle.filter((ele) => ele.id === "freeDraw")[0].clicked
+                  ? styles.buttonClick
+                  : styles.buttonUnclick
+              }
+              title="freeDraw"
+            >
+              {pencilIcon()}
+            </div>
+
+            {/* Make line button */}
+            <div
+              onClick={(e) => handleButtonClick(e)}
+              style={
+                buttonToggle.filter((ele) => ele.id === "MakeLine")[0].clicked
+                  ? styles.buttonClick
+                  : styles.buttonUnclick
+              }
+              title="MakeLine"
+            >
+              {lineIcon()}
+            </div>
+
+            {/* Make circle button  */}
+            <div
+              onClick={(e) => handleButtonClick(e)}
+              style={
+                buttonToggle.filter((ele) => ele.id === "MakeCircle")[0].clicked
+                  ? styles.buttonClick
+                  : styles.buttonUnclick
+              }
+              title="MakeCircle"
+            >
+              {circleIcon()}
+            </div>
+
+            {/* Background color change  */}
+            <div style={styles.bgColorDiv}>
+              {bgColorIcon()}
+              <input
+                type="color"
+                style={styles.bgPicker}
+                value={currentBgColor}
+                onChange={(e) => dispatch(handleBgColorChange(e.target.value))}
+              ></input>
+            </div>
+
+            {/* Stroke width Change */}
+            <div>
+              <input
+                type="number"
+                style={styles.strokeWidthInput}
+                min="1"
+                max="50"
+                value={currentStrokeWidth}
+                onChange={(e) =>
+                  dispatch(handleStrokeWidthChange(Number(e.target.value)))
+                }
+              ></input>
+            </div>
+
+            {/* Stroke color change  */}
+            <div>
+              <input
+                type="color"
+                style={styles.colorPicker}
+                value={currentStrokeColor}
+                onChange={(e) =>
+                  dispatch(handleStrokeColorChange(e.target.value))
+                }
+              ></input>
+            </div>
           </div>
 
-          <div>
-            <button style={styles.exportButton} onClick={() => handleExport()}>
-              Export
-            </button>
+          <div style={styles.innerCont}>
+            {/* Upload image  */}
+            <div>
+              <label
+                htmlFor="image_uploads"
+                title="PNG, JPG, JPEG"
+                style={styles.uploadImageLabel}
+              >
+                {uploadIcon()}
+              </label>
+              <input
+                id="image_uploads"
+                type="file"
+                accept="image/png, image/jpeg, image/jpg"
+                onChange={(e) => handleUploadImage(e)}
+                style={styles.uploadImageInput}
+              />
+            </div>
+
+            {/* Download image  */}
+            <div>
+              <div style={styles.exportButton} onClick={() => handleExport()}>
+                {downloadIcon()}
+              </div>
+            </div>
           </div>
         </div>
         <Canvas canvasHeight={canvasHeight} canvasWidth={canvasWidth} />
