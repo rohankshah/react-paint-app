@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Canvas from "../components/Canvas";
+import { styles } from "./PaintPageStyles";
 import {
   handleMakeLineButton,
   handleSelectButton,
@@ -9,85 +10,13 @@ import {
   handleStrokeColorChange,
   handleBgColorChange,
 } from "../actions/line-actions";
+import { setUploadImageToCanvas } from "../actions/canvas-actions";
 import {
   pencilIcon,
   selectionIcon,
   lineIcon,
   bgColorIcon,
 } from "../svg/allSvg";
-
-const styles = {
-  mainCont: {
-    height: "100vh",
-    width: "100vw",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#D3D3D3",
-  },
-
-  toolBoxCont: {
-    height: "3.5em",
-    width: "95vw",
-    borderLeft: "2px solid black",
-    borderRight: "2px solid black",
-    borderTop: "2px solid black",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    padding: "0em 1em",
-    backgroundColor: "white",
-  },
-
-  buttonUnclick: {
-    marginRight: "1em",
-  },
-
-  buttonClick: {
-    // backgroundColor: "#a3a3a3",
-    // opacity: "80%",
-    marginRight: "1em",
-    marginTop: "5px",
-    boxShadow: "inset 3px 3px 5px -3px #a3a3a3",
-  },
-
-  strokeWidthInput: {
-    height: "30px",
-    width: "4em",
-    marginRight: "1em",
-    paddingLeft: "7px",
-    border: "1px solid #a3a3a3",
-    // backgroundColor: "#a3a3a3",
-  },
-
-  colorPicker: {
-    height: "28px",
-    width: "3em",
-    border: "none",
-    marginRight: "1em",
-  },
-
-  bgColorDiv: {
-    height: "28px",
-    width: "3em",
-    marginRight: "1em",
-    position: "relative",
-    display: "inline-block",
-  },
-
-  bgPicker: {
-    border: "none",
-    marginRight: "1em",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    opacity: 0,
-    width: "100%",
-    height: "100%",
-    cursor: "pointer",
-  },
-};
 
 function PaintPage() {
   const strokeWidth = useSelector((state) => state && state.strokeWidth);
@@ -98,6 +27,7 @@ function PaintPage() {
   const [currentStrokeWidth, setCurrentStrokeWidth] = useState(2);
   const [currentStrokeColor, setcurrentStrokeColor] = useState("#000000");
   const [currentBgColor, setCurrentBgColor] = useState("#ffffff");
+  const [uploadedImage, setUploadedImage] = useState();
 
   const [buttonToggle, setButtonToggle] = useState([
     { id: "select", clicked: false },
@@ -116,6 +46,10 @@ function PaintPage() {
   useEffect(() => {
     bgColor && setCurrentBgColor(bgColor);
   }, [bgColor]);
+
+  useEffect(() => {
+    uploadedImage && dispatch(setUploadImageToCanvas(uploadedImage));
+  }, [uploadedImage]);
 
   function handleButtonClick(e) {
     switch (e.currentTarget.title) {
@@ -139,6 +73,10 @@ function PaintPage() {
       }
     });
     setButtonToggle(updatedButtons);
+  }
+
+  function handleUploadImage(e) {
+    setUploadedImage(URL.createObjectURL(e.target.files[0]));
   }
 
   const vw = Math.max(
@@ -230,6 +168,24 @@ function PaintPage() {
                 dispatch(handleStrokeColorChange(e.target.value))
               }
             ></input>
+          </div>
+
+          {/* Upload image  */}
+          <div>
+            <label
+              htmlFor="image_uploads"
+              title="PNG, JPG, JPEG"
+              style={styles.uploadImageLabel}
+            >
+              Upload
+            </label>
+            <input
+              id="image_uploads"
+              type="file"
+              accept="image/png, image/jpeg, image/jpg"
+              onChange={(e) => handleUploadImage(e)}
+              style={styles.uploadImageInput}
+            />
           </div>
         </div>
         <Canvas canvasHeight={canvasHeight} canvasWidth={canvasWidth} />
