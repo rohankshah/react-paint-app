@@ -1,4 +1,5 @@
 import { fabric } from "fabric";
+import { realTimeUpdate } from "../actions/session-actions";
 
 function isDrawingTrue() {
   return {
@@ -71,6 +72,7 @@ function handleMouseUpLine() {
     dispatch(isDrawingFalse());
     let canvasObj = state().canvas;
     canvasObj.renderAll();
+    dispatch(realTimeUpdate(canvasObj));
     dispatch(updateCanvas(canvasObj));
   };
 }
@@ -117,6 +119,7 @@ function handleMouseUpCircle() {
     dispatch(isDrawingFalse());
     let canvasObj = state().canvas;
     canvasObj.renderAll();
+    dispatch(realTimeUpdate(canvasObj));
     dispatch(updateCanvas(canvasObj));
   };
 }
@@ -127,6 +130,9 @@ function handleMakeLineButton() {
     canvasObj.__eventListeners = {};
     canvasObj._setOptions({ isDrawingMode: false });
     canvasObj._setOptions({ selection: false });
+    canvasObj.on("object:modified", (event) => {
+      dispatch(realTimeUpdate(canvasObj));
+    });
     canvasObj.on("mouse:down", (options) =>
       dispatch(handleMouseDownLine(canvasObj, options))
     );
@@ -145,6 +151,9 @@ function handleMakeCircleButton() {
     canvasObj.__eventListeners = {};
     canvasObj._setOptions({ isDrawingMode: false });
     canvasObj._setOptions({ selection: false });
+    canvasObj.on("object:modified", (event) => {
+      dispatch(realTimeUpdate(canvasObj));
+    });
     canvasObj.on("mouse:down", (options) =>
       dispatch(handleMouseDownCircle(canvasObj, options))
     );

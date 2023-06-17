@@ -1,3 +1,5 @@
+import { realTimeUpdate } from "./session-actions";
+
 function updateCanvas(canvasObj) {
   return {
     type: "ADD-LINE-TO-CANVAS",
@@ -49,6 +51,7 @@ function handleBgColorChange(newColor) {
     dispatch(changeBgColor(newColor));
     let canvasObj = state().canvas;
     canvasObj.setBackgroundColor(newColor, canvasObj.renderAll.bind(canvasObj));
+    dispatch(realTimeUpdate(canvasObj));
     dispatch(updateCanvas(canvasObj));
   };
 }

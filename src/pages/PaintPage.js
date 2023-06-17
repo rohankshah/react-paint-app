@@ -17,6 +17,7 @@ import {
   setUploadImageToCanvas,
   handleExportCanvas,
 } from "../actions/canvas-actions";
+import { shareCurrentSession } from "../actions/session-actions";
 import {
   pencilIcon,
   selectionIcon,
@@ -31,6 +32,7 @@ function PaintPage() {
   const strokeWidth = useSelector((state) => state && state.strokeWidth);
   const strokeColor = useSelector((state) => state && state.strokeColor);
   const bgColor = useSelector((state) => state && state.bgColor);
+  const currentCanvas = useSelector((state) => state && state.canvas);
   const dispatch = useDispatch();
 
   const [currentStrokeWidth, setCurrentStrokeWidth] = useState(2);
@@ -44,6 +46,10 @@ function PaintPage() {
     { id: "freeDraw", clicked: false },
     { id: "MakeCircle", clicked: false },
   ]);
+
+  useEffect(() => {
+    console.log(currentCanvas);
+  }, [currentCanvas]);
 
   useEffect(() => {
     strokeWidth && setCurrentStrokeWidth(strokeWidth);
@@ -94,6 +100,10 @@ function PaintPage() {
 
   function handleExport() {
     dispatch(handleExportCanvas());
+  }
+
+  function handleInvite() {
+    dispatch(shareCurrentSession());
   }
 
   const vw = Math.max(
@@ -226,6 +236,10 @@ function PaintPage() {
               <div style={styles.exportButton} onClick={() => handleExport()}>
                 {downloadIcon()}
               </div>
+            </div>
+
+            <div>
+              <button onClick={() => handleInvite()}>Invite</button>
             </div>
           </div>
         </div>

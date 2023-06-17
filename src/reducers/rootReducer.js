@@ -8,6 +8,10 @@ const initialState = {
   strokeWidth: 2,
   strokeColor: "#000000",
   bgColor: "#ffffff",
+  createName: "",
+  joinName: "",
+  begun: false,
+  inviteCanvasObject: {},
 };
 
 function rootReducer(state = initialState, action) {
@@ -63,6 +67,26 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       bgColor: action.payload,
+    };
+  }
+  if (action.type === "ADD-CREATE-USER") {
+    return {
+      ...state,
+      createName: action.payload,
+    };
+  }
+  if (action.type === "SESSION-CREATE-SUCCESS") {
+    return {
+      ...state,
+      begun: true,
+    };
+  }
+  if (action.type === "SESSION-JOIN-SUCCESS") {
+    return {
+      ...state,
+      begun: true,
+      inviteCanvasObject: action.payload.canvas,
+      code: action.payload.code,
     };
   } else {
     return {

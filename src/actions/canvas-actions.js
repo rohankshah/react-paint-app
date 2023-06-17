@@ -1,5 +1,6 @@
 import { fabric } from "fabric";
 import fileDownload from "js-file-download";
+import { realTimeUpdate } from "./session-actions";
 
 function setCanvasSuccess(canvasObj) {
   return {
@@ -37,6 +38,9 @@ function handleSelectButton() {
     canvasObj.__eventListeners = {};
     canvasObj._setOptions({ isDrawingMode: false });
     canvasObj._setOptions({ selection: true });
+    canvasObj.on("object:modified", (event) => {
+      dispatch(realTimeUpdate(canvasObj));
+    });
     dispatch(updateCanvas(canvasObj));
   };
 }
@@ -49,6 +53,9 @@ function handleFreeDrawButton() {
     canvasObj._setOptions({ isDrawingMode: true });
     canvasObj.freeDrawingBrush.color = state().strokeColor;
     canvasObj.freeDrawingBrush.width = state().strokeWidth;
+    canvasObj.on("path:created", (event) => {
+      dispatch(realTimeUpdate(canvasObj));
+    });
     dispatch(updateCanvas(canvasObj));
   };
 }
